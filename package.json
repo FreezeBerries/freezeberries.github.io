@@ -1,0 +1,9 @@
+{
+  "name": "Mike's Portfolio",
+  "version": "1.0.0",
+  "dependencies": {
+    "bootstrap": "^3.3.7",
+    "bootswatch": "^4.0.0",
+    "knockout": "^3.5.0-beta"
+  }
+}

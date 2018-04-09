@@ -1,0 +1,209 @@
+html,
+body {
+    height: 100%;
+}
+
+.container {
+    margin-top: 15px;
+    /*padding: 15px;*/
+}
+
+.mt-5 {
+    margin-top: 5px;
+}
+
+.pt-small {
+    padding-top: 1em;
+}
+
+.pt-big {
+    padding-top: 5px;
+}
+
+.mt-big {
+    margin-top: 5rem;
+}
+
+.tile:hover {
+    cursor: pointer;
+    box-shadow: 9px 7px 4px #eadfdf;
+}
+
+.tile:hover .card-body {
+    background-color: #f1f4f5;
+}
+
+.full-height {
+    height: 100%;
+}
+
+.loading-required {
+    display: none;
+}
+
+@-o-keyframes fadeIt {
+    0% {
+        background-color: #FFFFFF;
+    }
+    50% {
+        background-color: #969696;
+    }
+    100% {
+        background-color: #3E3F3A;
+    }
+}
+
+@keyframes fadeIt {
+    0% {
+        background-color: #FFFFFF;
+    }
+    50% {
+        background-color: #969696;
+    }
+    100% {
+        background-color: #3E3F3A;
+    }
+}
+
+.loader {
+    background-image: none !important;
+    -o-animation: fadeIt .7s ease-in-out;
+    animation: fadeIt .7s ease-in-out;
+    background-color: #3E3F3A;
+    color: white;
+}
+
+.inline {
+    position: absolute;
+    width: calc(100% - 30px);
+}
+
+.app-inline {
+    position: absolute;
+    width: 100%;
+}
+
+.hide-left {
+    margin-left: -1000px;
+    margin-right: 1000px;
+}
+
+
+.hide-right {
+    margin-left: 1000px;
+    margin-right: -1000px;
+}
+
+
+.hide-top {
+    margin-top: -2000px;
+    margin-bottom: 2000px;
+}
+
+.trash i {
+    color: white;
+}
+
+.trash:hover i {
+    color: #Df230F;
+}
+
+#app-container {
+    height: calc(100% - 54.3px);
+}
+
+.padding-normal {
+    padding: 15px;
+}
+
+.list-group-item:not(.no-hover):hover {
+    background-color: #3E3F3A;
+    color: white;
+    cursor: pointer;
+}
+
+.card-flat {
+    padding: 5px 10px;
+}
+
+.badge {
+    font-size: 20px;
+    color: #93C54B;
+    font-weight: 900;
+    cursor: pointer;
+}
+
+.badge:hover {
+    font-weight: 900;
+    color: white;
+}
+
+.badge.hover-dark:hover {
+    color: black;
+}
+
+.badge.hover-light:hover {
+    color: white;
+}
+
+.pointer {
+    cursor: pointer;
+}
+
+@media (min-width: 700px) {
+     .overlay {
+         display: none;
+     }   
+     
+     .sidebar {
+         position: inherit;
+         left: 0;
+         top: 0;
+     }
+}
+
+@media (max-width: 700px) {
+    .sidebar {
+        position: absolute;
+        left: -500px;
+        height: calc(100% + 53px);
+        overflow-y: auto;
+        background-color: white;
+        z-index: 1000;
+        border-right: 1px solid lightgrey;
+        top: -52px;
+        min-width: 265px;
+        
+    }
+
+    .content {
+        width: 100%;
+        min-width: 100%;
+    }
+
+    #app-container .col-md-10.offset-md-1.col-sm-12.full-height {
+        padding-left: 0 !important;
+        padding-right: 0 !important;
+        margin: 0 !important;
+    }
+
+    .mobile-menu {
+        display: inline-block;
+    }
+    
+    .overlay {
+        width: 100%;
+        position: absolute;
+        height: 100%;
+        z-index: 10;
+        background-color: rgb(0,0,0,.5);
+        top: 0;
+        left: 0;
+        display: none;
+    }
+    
+    .overlay.active {
+        display: block;
+    }
+    
+}

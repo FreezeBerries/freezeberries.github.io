@@ -1,0 +1,110 @@
+html,
+body {
+    height: 100%;
+    font-family: 'Eczar', serif;
+}
+
+.container {
+    margin-top: 15px;
+    /*padding: 15px;*/
+}
+
+.mt-5 {
+    margin-top: 5px;
+}
+
+.pt-small {
+    padding-top: 1em;
+}
+
+.pt-big {
+    padding-top: 5px;
+}
+
+.mt-big {
+    margin-top: 5rem;
+}
+
+.tile:hover {
+    cursor: pointer;
+    box-shadow: 9px 7px 4px #eadfdf;
+}
+
+.tile:hover .card-body {
+    background-color: #f1f4f5;
+}
+
+.full-height {
+    height: 100%;
+}
+
+.loading-required {
+    display: none;
+}
+
+@-o-keyframes fadeIt {
+    0% {
+        background-color: #FFFFFF;
+    }
+    50% {
+        background-color: #AD301B;
+    }
+    100% {
+        background-color: #D9230F;
+    }
+}
+
+@keyframes fadeIt {
+    0% {
+        background-color: #FFFFFF;
+    }
+    50% {
+        background-color: #AD301B;
+    }
+    100% {
+        background-color: #D9230F;
+    }
+}
+
+.loader {
+    background-image: none !important;
+    -o-animation: fadeIt .7s ease-in-out;
+    animation: fadeIt .7s ease-in-out;
+    background-color: #D9230F;
+    color: white;
+}
+
+.inline {
+    position: absolute;
+    width: calc(100% - 30px);
+}
+
+.app-inline {
+    position: absolute;
+    width: 100%;
+}
+
+.hide-left {
+    margin-left: -1000px;
+    margin-right: 1000px;
+}
+
+
+.hide-right {
+    margin-left: 1000px;
+    margin-right: -1000px;
+}
+
+
+.hide-top {
+    margin-top: -2000px;
+    margin-bottom: 2000px;
+}
+
+.trash i{
+    color: black;
+}
+
+.trash:hover i {
+    color: #Df230F;
+}

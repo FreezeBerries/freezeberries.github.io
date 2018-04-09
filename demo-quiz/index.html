@@ -1,0 +1,396 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta id="Viewport" name="viewport" content="initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no">
+    <link href="https://fonts.googleapis.com/css?family=Eczar" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <!--<link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">-->
+    <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootswatch/4.0.0/simplex/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="https://csshake.surge.sh/csshake.min.css">
+    <link rel="stylesheet" type="text/css" href="styles/flip.css">
+    <link rel="stylesheet" type="text/css" href="styles/app.css">
+    
+</head>
+
+<body>
+    <div id="loading" class="full-height loader" data-bind="visible: loadingVM.isVisible() === true">
+        <div class="text-center">
+        </div>
+
+    </div>
+    <div id="content" class="full-height" data-bind="visible: loadingVM.isVisible() === false">
+        <div class="full-height bg-primary" data-bind="fadeVisible: accountVM.isVisible()">
+            <div class="col-md-6 offset-md-3">
+                <div class="">
+                    <fieldset>
+                        <h5 class=" pt-small mb-5 loading-required" data-bind="fadeVisible: loginVM.isVisible() || signupVM.isVisible() || forgotPasswordVM.isVisible()">
+                            <a href="../index.html" class="text-white">
+                                <i class="fa fa-chevron-left"></i>
+                                Back to Mike's Portfolio
+                            </a>
+                        </h5>
+
+                        <div id="login" class="hide-left inline loading-required" data-bind="leftVisible: loginVM.isVisible()">
+                            <div class="card bg-secondary border-dark mb-3">
+                                <div class="card-body">
+                                    <h1 class="text-center mb-1">
+                                        Quiz App
+                                        <br />
+                                        <small class="mb-2" style="font-size: 14px;">One log-in, all my demos.</small>
+                                    </h1>
+                                    <div class="form-group">
+                                        <label>Email address</label>
+                                        <input type="email" data-bind="value: loginVM.userName" class="form-control" aria-describedby="emailHelp" placeholder="Enter email">
+                                        <!--<small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>-->
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Password</label>
+                                        <input type="password" data-bind="value:loginVM.userPassword" class="form-control" placeholder="Password">
+                                    </div>
+                                    <div class="alert alert-dismissible alert-warning" data-bind="visible: loginVM.errorMessage() != undefined">
+                                        <button type="button" class="close" data-dismiss="alert">&times;</button>
+                                        <p class="mb-0" data-bind="text: loginVM.errorMessage"></p>
+                                    </div>
+                                    <button type="submit" data-bind="click:loginVM.login" class="btn btn-primary float-right ">Log In</button>
+
+                                    <div class="text-white mb-2">
+                                        <a href="#" data-bind="click: forgotPasswordVM.makeVisible.bind(true)">Forgot password?</a>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="text-center">
+                                <a href="#" class="text-white" data-bind="click: signupVM.makeVisible.bind(true)">Create an account</a>
+                            </div>
+                        </div>
+
+
+
+                        <div id="register" class="hide-right inline  loading-required" data-bind="rightVisible: signupVM.isVisible()">
+                            <div class="card bg-secondary border-dark mb-3">
+                                <div class="card-body">
+                                    <h4 class="card-title text-center">Register</h4>
+                                    <div class="form-group">
+                                        <label>Email address</label>
+                                        <input type="email" data-bind="value: signupVM.userName, css: {'is-invalid': signupVM.userNameError() !== undefined}" class="form-control" aria-describedby="emailHelp" placeholder="Enter email">
+                                        <div class="invalid-feedback" data-bind="visible: signupVM.userNameError() !== undefined, text: signupVM.userNameError()"></div>
+                                        <!--<small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>-->
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Password</label>
+                                        <input type="password" data-bind="value: signupVM.userPassword, css: {'is-invalid': signupVM.userPasswordError() !== undefined}" class="form-control" placeholder="Password">
+                                        <div class="invalid-feedback" data-bind="visible: signupVM.userPasswordError() !== undefined, text: signupVM.userPasswordError()"></div>
+                                    </div>
+                                    
+                                    <div class="alert alert-dismissible alert-warning" data-bind="visible: signupVM.errorMessage() != undefined">
+                                        <button type="button" class="close" data-dismiss="alert">&times;</button>
+                                        <p class="mb-0" data-bind="text: signupVM.errorMessage"></p>
+                                    </div>
+                                    <button type="submit" data-bind="click:signupVM.signup" class="btn btn-primary float-right ">Register</button>
+                                </div>
+
+                            </div>
+                            <div class="text-center">
+                                <a href="#" class="text-white" data-bind="click: loginVM.makeVisible.bind(true)">Log In</a>
+                            </div>
+                        </div>
+
+
+
+
+                        <div id="resetPassword" class="hide-top inline  loading-required" data-bind="topVisible: forgotPasswordVM.isVisible()">
+                            <div class="card bg-secondary border-dark mb-3 mt-big">
+
+                                <div class="card-body" data-bind="visible: forgotPasswordVM.show() == 'form'">
+                                    <h4 class="card-title text-center">Forgot Password</h4>
+                                    <div class="form-group">
+                                        <label>Email address</label>
+                                        <input type="email" data-bind="value: forgotPasswordVM.email, css: {'is-invalid': forgotPasswordVM.errorMessage() !== undefined}" class="form-control" aria-describedby="emailHelp" placeholder="Enter email">
+                                        <div class="invalid-feedback" data-bind="visible: forgotPasswordVM.errorMessage() !== undefined, text: forgotPasswordVM.errorMessage()"></div>
+                                    </div>
+                                    <button type="button" data-bind="click:forgotPasswordVM.resetPassword" class="btn btn-primary float-right ">Reset Password</button>
+                                </div>
+                                <div class="card-body" data-bind="visible: forgotPasswordVM.show() == 'sent'">
+                                    <h4 class="card-title text-center">An email has been sent.</h4>
+                                    <button type="button" data-bind="click:forgotPasswordVM.tryAgain" class="btn btn-primary float-right ">Try Again</button>
+                                </div>
+
+                            </div>
+                            <div class="text-center">
+                                <a href="#" class="text-white" data-bind="click: loginVM.makeVisible.bind(true)">Log In</a>
+                            </div>
+                        </div>
+
+
+                    </fieldset>
+                </div>
+            </div>
+        </div>
+
+
+
+        <div class="loading-required app-inline" data-bind="fadeVisible: !accountVM.isVisible()">
+            <nav class="navbar navbar-expand-lg text-white loading-required navbar-dark bg-primary hide-left" data-bind="leftVisible: navbarVM.isVisible()">
+                <a class="navbar-brand" href="../index.html">Mike's Portfolio</a>
+                <a href="#" class="float-right text-white navbar-brand" style="margin-right: 0px;" data-bind="click: ViewModels.navbarVM.logout">Log Out</a>
+            </nav>
+            <div class="container" id="app-container">
+                <div class="row">
+                    <div class="col-md-8 offset-md-2">
+                        <div class="row inline loading-required hide-left" data-bind="leftVisible:sceneVM.isVisible() == 'dashboard'">
+                            <div class="col-md-12 mb-3" style="padding-left: 0; padding-right: 0;">
+                                <div class="btn btn-secondary float-right" data-bind="click: dashboardVM.new">Create Quiz</div>
+
+                                <h3>Quiz App</h3>
+                            </div>
+                            <div class="row" data-bind="visible: dashboardVM.quizzes().length > 0 ,foreach: dashboardVM.quizzes">
+                                <div class="col-md-6">
+                                    <div class="card border-dark mb-3">
+                                        <div class="card-body">
+                                            <div class="float-right trash" data-bind="click: $parent.dashboardVM.deleteQuizModal.bind($index)">
+                                                <i class="fa fa-trash"></i>
+                                            </div>
+                                            <h4 class="card-title mb-1 mt-0" data-bind="text: name"></h4>
+                                            <p class="card-text mb-1" data-bind="text: description"></p>
+                                        </div>
+                                        <div class="card-footer">
+                                            <a href="#" class="btn btn-primary mb-0" data-bind="click: $parent.dashboardVM.startQuiz.bind($index)">Take Quiz</a>
+                                        
+                                            <span><span data-bind="text: questions.length"></span> Question<span data-bind="text: questions.length != 1 ? 's' : ''"></span></span>
+                                            
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row text-center" data-bind="visible: dashboardVM.quizzes().length == 0">
+                                <div class="col-md-12">
+                                    <br />
+                                    <br />
+                                    <br /> Nothing Here
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-8 offset-md-2 ">
+                        <div class="row inline loading-required hide-right" data-bind="rightVisible: sceneVM.isVisible() == 'quiz'">
+
+                            <a href="#" data-bind="click: ViewModels.creatorVM.back">
+                                <h4 class="mb-4 mt-2">
+                                    <i class="fa fa-chevron-left"></i>
+                                    <span>back to</span> <strong>Dashboard</strong>
+                                </h4>
+                            </a>
+                            <div class="mb-3">
+                                <div class="flip-container" ontouchstart="this.classList.toggle('hover');">
+                                    <div class="flipper">
+                                        <div class="front">
+                                            <div data-bind="visible: quizVM.showResult()" class="card mb-3">
+                                                <div class="card-body">
+                                                    <h4 class="card-title">Result</h4>
+                                                    <p class="card-text">
+                                                        Number of correct answers:
+                                                        <span data-bind="text: quizVM.correctCounter"></span>
+                                                        <br/> Number of wrong answers:
+                                                        <span data-bind="text: quizVM.wrongCounter"></span>
+                                                    </p>
+                                                </div>
+                                            </div>
+                                            <!-- front content -->
+                                            <div class="list-group mb-4" id="quiz-question-card" data-bind="if: quizVM.questions().length > 0 && quizVM.showResult() === false">
+                                                <div class="list-group-item list-group-item-action flex-column align-items-start active bg-dark  border-dark text-white">
+                                                    <div class="d-flex w-100 justify-content-between">
+                                                        <h5 class="mb-1">Question <span data-bind="text: quizVM.index() + 1"></span>/<span data-bind="text: quizVM.questions().length"></span></h5>
+                                                        <!--<small>3 days ago</small>-->
+                                                    </div>
+                                                    <p class="mb-1" data-bind="text: quizVM.question"></p>
+                                                </div>
+                                                <div class="list-group-item list-group-item-action flex-column align-items-start  border-dark">
+                                                    <fieldset class="form-group" data-bind="foreach: quizVM.answers">
+                                                        <div class="form-check mb-2">
+                                                            <label class="form-check-label">
+                                                    <input type="radio" data-bind="value: $index() + 1" class="form-check-input" name="user-answer">
+                                                    <span data-bind="text: answer"></span>
+                                                </label>
+                                                        </div>
+                                                    </fieldset>
+                                                </div>
+                                            </div>
+                                            <div data-bind="visible: quizVM.noUserSelection() !== undefined" class="alert alert-dismissible alert-primary">
+                                                <button type="button" class="close" data-dismiss="alert">&times;</button>
+                                                <strong>Oh snap!</strong> We need an answer.
+                                            </div>
+                                            <div class="pull-right" data-bind="visible: quizVM.showResult() === false">
+                                                <div class="btn btn-dark" data-bind="click: quizVM.next">
+                                                    Next
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="back">
+                                            <!-- back content -->
+                                            <div data-bind="visible: quizVM.show() === 'wrong'" class="card text-white bg-primary mb-3">
+                                                <div class="card-body">
+                                                    <h4 class="card-title">Wrong</h4>
+                                                    <!--<p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>-->
+                                                </div>
+                                            </div>
+                                            <div data-bind="visible: quizVM.show() === 'correct'" class="card text-white bg-success mb-3">
+                                                <div class="card-body">
+                                                    <h4 class="card-title">Correct</h4>
+                                                    <!--<p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>-->
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div class="col-md-8 offset-md-2">
+                        <div id="quiz-form" class="row inline loading-required hide-left" data-bind='leftVisible: sceneVM.isVisible() == "creator"'>
+                            <form class="form-horizontal">
+                                <fieldset>
+                                    <legend>
+                                        <small><a href="#" data-bind="click: ViewModels.creatorVM.back"><i class="fa fa-chevron-left"></i> back to <strong>Dashboard</strong></a></small>
+                                        <br/> Create a Quiz
+                                    </legend>
+                                    <div class="form-group">
+                                        <label class="control-label">Name</label>
+                                        <div class="">
+                                            <input maxlength="20" type="text" class="form-control" data-bind="value: ViewModels.creatorVM.name, css: {'is-invalid': creatorVM.nameErrorMessage() !== undefined}">
+                                            <div class="invalid-feedback" data-bind="visible: creatorVM.nameErrorMessage() !== undefined, text: creatorVM.nameErrorMessage()"></div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="textArea" class="control-label">Description:</label>
+                                        <div class="">
+                                            <textarea data-bind="value: ViewModels.creatorVM.description, css: {'is-invalid': creatorVM.descriptionErrorMessage() !== undefined}" maxlength="60" class="form-control" rows="3" id="textArea"></textarea>
+                                            <div class="invalid-feedback" data-bind="visible: creatorVM.descriptionErrorMessage() !== undefined, text: creatorVM.descriptionErrorMessage()"></div>
+                                        </div>
+                                    </div>
+                                    <div data-bind="foreach: creatorVM.questions">
+                                        <div class="card border-dark mb-3">
+                                            <div class="card-header bg-dark text-white">
+
+                                                <div class="form-group">
+                                                    <label class="control-label">Question:</label>
+                                                    <div class="">
+                                                        <input maxlength="50" data-bind="value: question, css: {'is-invalid': questionErrorMessage() !== undefined}" type="text" class="form-control">
+                                                        <div class="invalid-feedback" data-bind="visible: questionErrorMessage() !== undefined, text: questionErrorMessage()"></div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="card-body">
+                                                <fieldset class="form-group">
+                                                    <h6>Answers:</h6>
+                                                    <div data-bind="foreach: answers">
+                                                        <div class="form-check mb-3">
+                                                            <input type="radio" data-bind="checked: isCorrect, attr: {name: 'form-check-input' + $parentContext.$index()}" class="form-check-input">
+                                                            <input maxlength="25" type="text" data-bind="value: answer, css: {'is-invalid': answerErrorMessage() !== undefined}" class="form-control" />
+                                                            <div class="invalid-feedback" data-bind="visible: answerErrorMessage() !== undefined, text: answerErrorMessage()"></div>
+                                                        </div>
+                                                    </div>
+                                                    <!--<div class="form-check mb-3">-->
+                                                    <!--    <input type="radio" class="form-check-input" name="optionsRadios" value="option1" checked="">-->
+                                                    <!--    <input type="text" class="form-control" />-->
+                                                    <!--</div>-->
+                                                    <!--<div class="form-check mb-3">-->
+                                                    <!--    <input type="radio" class="form-check-input" name="optionsRadios" value="option1" checked="">-->
+                                                    <!--    <input type="text" class="form-control" />-->
+                                                    <!--</div>-->
+                                                    <!--<div class="form-check mb-1">-->
+                                                    <!--    <input type="radio" class="form-check-input" name="optionsRadios" value="option1">-->
+                                                    <!--    <input type="text" class="form-control" />-->
+                                                    <!--</div>-->
+
+                                                </fieldset>
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+
+                                    <button type="button" data-bind="click: creatorVM.addQuestion" class="btn btn-dark btn-lg btn-block mb-3">Add Another Question</button>
+                                    <div data-bind="visible: creatorVM.hasErrors() === true" class="alert alert-dismissible alert-primary">
+                                        <button type="button" class="close" data-dismiss="alert">&times;</button>
+                                        <strong>Oh snap!</strong> <a href="#" class="alert-link">Change a few things up</a> and try submitting again.
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="pull-right mb-5">
+                                            <button data-bind="click: creatorVM.submit" class="btn btn-primary">Save</button>
+                                        </div>
+                                    </div>
+                                </fieldset>
+                            </form>
+                        </div>
+                    </div>
+
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+
+
+    <div class="modal fade" id="delete-todo-list" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header bg-danger text-white">
+                    <h5 class="modal-title" id="exampleModalLabel">Delete</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+                </div>
+                <div class="modal-body">
+                    You are deleting the quiz called "<strong data-bind="text: dashboardVM.quizBeingDeleted() === undefined ? '' : dashboardVM.quizBeingDeleted().name"></strong>". You will not be able to recover your quiz. It will be gone forever.
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-white text-dark" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-danger" data-bind="click: dashboardVM.deleteQuiz">Delete</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/knockout/3.4.2/knockout-min.js"></script>
+    <!--<script src="https://www.gstatic.com/firebasejs/4.12.0/firebase.js"></script>-->
+    <script src="https://www.gstatic.com/firebasejs/4.11.0/firebase.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/4.11.0/firebase-firestore.js"></script>
+    <script>
+        // Initialize Firebase
+        // var config = {
+        //     apiKey: "AIzaSyDCot4QCSaJzA4KTcJJrw5xKPgaXbpsXIg",
+        //     authDomain: "dotted-ranger-90904.firebaseapp.com",
+        //     databaseURL: "https://dotted-ranger-90904.firebaseio.com",
+        //     projectId: "dotted-ranger-90904",
+        //     storageBucket: "",
+        //     messagingSenderId: "227165772735"
+        // };
+        // firebase.initializeApp(config);
+
+        firebase.initializeApp({
+            apiKey: "AIzaSyDCot4QCSaJzA4KTcJJrw5xKPgaXbpsXIg",
+            authDomain: "dotted-ranger-90904.firebaseapp.com",
+            projectId: "dotted-ranger-90904"
+        });
+
+        var db = firebase.firestore();
+    </script>
+    <script src="scripts/util.js"></script>
+    <script src="scripts/database.js"></script>
+    <script src="scripts/account.js"></script>
+    <script src="scripts/layout.js"></script>
+    <script src="scripts/app.js"></script>
+    <script src="scripts/ko.custom.transitions.js"></script>
+    <script src="scripts/app.init.js"></script>
+</body>
+
+</html>

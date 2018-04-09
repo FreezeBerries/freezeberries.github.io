@@ -1,0 +1,382 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta id="Viewport" name="viewport" content="initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no">
+    <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <!--<link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">-->
+    <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootswatch/4.0.0/sandstone/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="https://csshake.surge.sh/csshake.min.css">
+    <link rel="stylesheet" type="text/css" href="styles/flip.css">
+    <link rel="stylesheet" type="text/css" href="styles/app.css">
+</head>
+
+<body>
+    <div id="loading" class="full-height loader" data-bind="visible: loadingVM.isVisible() === true">
+        <div class="text-center">
+        </div>
+
+    </div>
+    <div id="content" class="full-height" data-bind="visible: loadingVM.isVisible() === false">
+        <div class="full-height bg-primary" data-bind="fadeVisible: accountVM.isVisible()">
+            <div class="col-md-6 offset-md-3">
+                <div class="">
+                    <fieldset>
+                        <h5 class=" pt-small mb-5 loading-required" data-bind="fadeVisible: loginVM.isVisible() || signupVM.isVisible() || forgotPasswordVM.isVisible()">
+                            <a href="../index.html" class="text-white">
+                                <i class="fa fa-chevron-left"></i>
+                                Back to Mike's Portfolio
+                            </a>
+                        </h5>
+
+                        <div id="login" class="hide-left inline loading-required" data-bind="leftVisible: loginVM.isVisible()">
+                            <div class="card bg-white border-dark mb-3">
+                                <div class="card-body">
+                                    <h1 class="text-center mb-1">
+                                        To Do List App
+                                        <br />
+                                        <small class="mb-2" style="font-size: 14px;">One log-in, all my demos.</small>
+                                    </h1>
+                                    <div class="form-group">
+                                        <label>Email address</label>
+                                        <input type="email" data-bind="value: loginVM.userName" class="form-control" aria-describedby="emailHelp" placeholder="Enter email">
+                                        <!--<small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>-->
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Password</label>
+                                        <input type="password" data-bind="value:loginVM.userPassword" class="form-control" placeholder="Password">
+                                    </div>
+                                    <div class="alert alert-dismissible alert-warning" data-bind="visible: loginVM.errorMessage() != undefined">
+                                        <button type="button" class="close" data-dismiss="alert">&times;</button>
+                                        <p class="mb-0" data-bind="text: loginVM.errorMessage"></p>
+                                    </div>
+                                    <button type="submit" data-bind="click:loginVM.login" class="btn btn-primary float-right ">Log In</button>
+
+                                    <div class="text-white mb-2">
+                                        <a href="#" data-bind="click: forgotPasswordVM.makeVisible.bind(true)">Forgot password?</a>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="text-center">
+                                <a href="#" class="text-white" data-bind="click: signupVM.makeVisible.bind(true)">Create an account</a>
+                            </div>
+                        </div>
+
+
+
+                        <div id="register" class="hide-right inline  loading-required" data-bind="rightVisible: signupVM.isVisible()">
+                            <div class="card bg-white border-dark mb-3">
+                                <div class="card-body">
+                                    <h4 class="card-title text-center">Register</h4>
+                                    <div class="form-group">
+                                        <label>Email address</label>
+                                        <input type="email" data-bind="value: signupVM.userName, css: {'is-invalid': signupVM.userNameError() !== undefined}" class="form-control" aria-describedby="emailHelp" placeholder="Enter email">
+                                        <div class="invalid-feedback" data-bind="visible: signupVM.userNameError() !== undefined, text: signupVM.userNameError()"></div>
+                                        <!--<small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>-->
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Password</label>
+                                        <input type="password" data-bind="value: signupVM.userPassword, css: {'is-invalid': signupVM.userPasswordError() !== undefined}" class="form-control" placeholder="Password">
+                                        <div class="invalid-feedback" data-bind="visible: signupVM.userPasswordError() !== undefined, text: signupVM.userPasswordError()"></div>
+                                    </div>
+                                    <div class="alert alert-dismissible alert-warning" data-bind="visible: signupVM.errorMessage() != undefined">
+                                        <button type="button" class="close" data-dismiss="alert">&times;</button>
+                                        <p class="mb-0" data-bind="text: signupVM.errorMessage"></p>
+                                    </div>
+                                    <button type="submit" data-bind="click:signupVM.signup" class="btn btn-primary float-right ">Register</button>
+                                </div>
+
+                            </div>
+                            <div class="text-center">
+                                <a href="#" class="text-white" data-bind="click: loginVM.makeVisible.bind(true)">Log In</a>
+                            </div>
+                        </div>
+
+
+
+
+                        <div id="resetPassword" class="hide-top inline  loading-required" data-bind="topVisible: forgotPasswordVM.isVisible()">
+                            <div class="card bg-white border-dark mb-3 mt-big">
+
+                                <div class="card-body" data-bind="visible: forgotPasswordVM.show() == 'form'">
+                                    <h4 class="card-title text-center">Forgot Password</h4>
+                                    <div class="form-group">
+                                        <label>Email address</label>
+                                        <input type="email" data-bind="value: forgotPasswordVM.email, css: {'is-invalid': forgotPasswordVM.errorMessage() !== undefined}" class="form-control" aria-describedby="emailHelp" placeholder="Enter email">
+                                        <div class="invalid-feedback" data-bind="visible: forgotPasswordVM.errorMessage() !== undefined, text: forgotPasswordVM.errorMessage()"></div>
+                                    </div>
+                                    <button type="button" data-bind="click:forgotPasswordVM.resetPassword" class="btn btn-primary float-right ">Reset Password</button>
+                                </div>
+                                <div class="card-body" data-bind="visible: forgotPasswordVM.show() == 'sent'">
+                                    <h4 class="card-title text-center">An email has been sent.</h4>
+                                    <button type="button" data-bind="click:forgotPasswordVM.tryAgain" class="btn btn-primary float-right ">Try Again</button>
+                                </div>
+
+                            </div>
+                            <div class="text-center">
+                                <a href="#" class="text-white" data-bind="click: loginVM.makeVisible.bind(true)">Log In</a>
+                            </div>
+                        </div>
+
+
+                    </fieldset>
+                </div>
+            </div>
+        </div>
+
+
+
+        <div class="loading-required full-height app-inline" data-bind="fadeVisible: !accountVM.isVisible()">
+
+            <div class="overlay" data-bind="click: groupsVM.closeSideBar"></div>
+            <nav class="navbar navbar-expand-lg loading-required navbar-dark bg-primary hide-left" data-bind="leftVisible: navbarVM.isVisible()">
+                <a class="navbar-brand" href="../index.html">Mike's Portfolio</a>
+                <a href="#" class="float-right navbar-brand" style="margin-right: 0px;" data-bind="click: ViewModels.navbarVM.logout">Log Out</a>
+            </nav>
+            <div class="container-fuild" id="app-container">
+                <div class="col-lg-10 offset-lg-1 col-md-10 offset-md-1 col-sm-12 full-height">
+                    <div class="row full-height" style="margin: 0;">
+                        <div class="col-4 full-height padding-normal sidebar">
+                            <ul class="list-group" data-bind="foreach: groupsVM.todoLists">
+                                <li data-bind="css:{'bg-primary': isSelected(), 'text-white': isSelected() }, click: $parent.groupsVM.selectList.bind($index())" class="list-group-item d-flex justify-content-between border-white align-items-center">
+                                    <span data-bind="text: name"></span>
+
+                                </li>
+                            </ul>
+                            <ul class="list-group mb-3">
+
+                                <li data-bind="visible: groupsVM.isAddingNew()" style="padding-right: 0; padding-left: 0" class="list-group-item no-hover justify-content-between border-white align-items-center">
+                                    <div class="mt-0 mb-3">
+                                        <!--<div class="card-header">Header</div>-->
+                                        <div class="">
+                                            <input id="userInputName" type="text" data-bind="value: groupsVM.userInputName, valueUpdate: 'afterkeydown', event: {keypress: groupsVM.addNewEnter}" class="form-control mb-2 bg-light border-primary" placeholder="the list name" maxlength="20" />
+                                            <div data-bind="click: groupsVM.saveAddNew" class="btn btn-primary mr-2">Save</div>
+                                            <a data-bind="click: groupsVM.cancelAddNew" href="#">Cancel</a>
+                                        </div>
+                                    </div>
+                                    <!--<div class="card">-->
+                                    <!--    <div class="card-body">-->
+                                    <!--<span class="badge badge-primary badge-pill">1</span>-->
+                                    <!--    </div>-->
+                                    <!--</div>-->
+                                </li>
+                                <li class="list-group-item no-hover d-flex justify-content-between border-white align-items-center">
+                                    <a data-bind="visible: groupsVM.isAddingNew() === false, click: groupsVM.addNewView" href="#">Add New</a>
+                                    <!--<span class="badge badge-primary badge-pill">1</span>-->
+                                </li>
+                            </ul>
+
+                            <br/>
+                        </div>
+                        <div class="col-8 full-height padding-normal content text-dark">
+                            <!--<h3></h3>-->
+                            <!--<hr />-->
+                            <div class="row mt-3">
+                                <div class="col-md-12">
+                                    <div class="pull-right dropdown">
+                                        <span class="badge hover-dark pointer" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa fa-gear"></i></span>
+                                        <div class="dropdown-menu dropdown-menu-right">
+                                            <a class="dropdown-item" href="#" data-bind="click: listVM.clearComplete;"><i class="fa fa-check-square"></i> Clear Completed</a>
+                                            <a data-bind="click: listVM.renameListModal" class="dropdown-item" href="#"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> Rename</a>
+                                            <div data-bind="visible: groupsVM.todoLists().length > 1" class="dropdown-divider"></div>
+                                            <a data-bind="visible: groupsVM.todoLists().length > 1, click: listVM.deleteListModal" class="dropdown-item" href="#"><i class="fa fa-trash-o" aria-hidden="true"></i> Delete</a>
+                                        </div>
+                                        <!--<div class="btn btn-secondary  mb-3" ">-->
+                                        <!--data-bind="click: clearComplete;"-->
+                                        <!--    Clear Complete-->
+                                        <!--</div>-->
+                                    </div>
+                                    <h3>
+                                        <span class="loading-required mobile-menu" data-bind="click: groupsVM.openSideBar">
+                                            <span class="badge hover-dark"><i class="fa fa-bars"></i>&nbsp; </span>
+                                        </span>
+                                        <span data-bind="text: listVM.name"></span>
+                                    </h3>
+                                    <div class="form-group">
+                                        <div class="form-group">
+                                            <div class="input-group mb-3">
+                                                <input type="text" maxlength="250" class="form-control bg-light border-primary" placeholder="write your to do" data-bind="value: listVM.userInput, valueUpdate: 'afterkeydown', event: {keypress: ViewModels.listVM.userInputEnter}">
+                                                <!---->
+                                                <div class="input-group-append">
+                                                    <span data-bind="click: listVM.addTodo" class="btn btn-primary border-primary">
+                                                        <!---->
+                <i class="fa fa-plus" aria-hidden="true"></i>
+              </span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="float-right" data-bind="visible: listVM.todoList().length > 0">
+                                        <h4 class="text-muted"><span data-bind="text: listVM.todoList().length + '&nbsp;total'"></span></h4>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12" data-bind="visible: listVM.todoList().length > 0, foreach: listVM.todoList">
+                                    <div class="flip-container" data-bind="css: {'flip': isEditing()}, attr: {'style': 'z-index: ' + ($parent.listVM.todoList().length - $index())}">
+                                        <div class="flipper" data-bind="">
+                                            <div class="front">
+
+                                                <div class="card text-dark mb-3">
+                                                    <div class="card-header border-primary card-flat" data-bind="css: {'bg-white': !isCompleted(), 'bg-success': isCompleted(), 'text-white': isCompleted()}">
+
+                                                        <div class="pull-right dropdown">
+                                                            <span data-bind="visible: isCompleted()===false" class="badge hover-dark pointer" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="fa fa-gear"></i> </span>
+                                                            <div class="dropdown-menu dropdown-menu-right">
+                                                                <a class="dropdown-item" href="#" data-bind="click: $parent.listVM.editTodoMode.bind($index)"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> Edit</a>
+                                                                <div class="dropdown-divider"></div>
+                                                                <a class="dropdown-item" href="#" data-toggle="modal" data-target="#delete-todo" data-bind="click: $parent.listVM.deleteTodoModal.bind($index)">
+                                                                    <!-- data-bind="click: $parent.listVM.deleteTodo.bind($index)"-->
+                                                                    <i class="fa fa-trash-o" aria-hidden="true"></i> Delete</a>
+                                                            </div>
+                                                        </div>
+                                                        <h4 data-bind="text: text"></h4>
+                                                        <p class="card-text mb-0" data-bind="text: time"></p>
+                                                    </div>
+                                                    <div class="card-body text-white bg-primary card-flat">
+                                                        <div class="pull-right" data-bind="visible: !isCompleted()">
+                                                        </div>
+                                                        <div class="form-group mb-0">
+                                                            <div class="">
+                                                                <input data-bind="checked: isCompleted" type="checkbox" class="">
+                                                                <label class="mb-0">Completed</label>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="back">
+
+                                                <div class="card text-dark mb-3">
+                                                    <div class="card-body card-flat">
+
+                                                        <input class="form-control bg-light border-primary mb-3" type="text" data-bind="value: editText" />
+                                                        <div class="btn btn-secondary" data-bind="click: $parent.listVM.editTodoCancel.bind($index)">
+                                                            Cancel
+                                                        </div>
+                                                        <div class="btn btn-primary pull-right" data-bind="click: $parent.listVM.editTodoSave.bind($index)">
+                                                            Save
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-12" data-bind="visible: listVM.todoList().length == 0">
+                                    <div class="text-center">
+                                        Nothing Here
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+
+
+    <!-- Modals -->
+    <div class="modal fade" id="delete-todo" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header bg-danger text-white">
+                    <h5 class="modal-title" id="exampleModalLabel">Delete</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+                </div>
+                <div class="modal-body">
+                    You are deleting the todo called "<strong><span data-bind="text: listVM.deleteTodoObj() != undefined && listVM.deleteTodoObj().text()"></span></strong>". You will not be able to recover your data. It will be gone forever.
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-white text-dark" data-dismiss="modal">Close</button>
+                    <button type="button" data-bind="click: listVM.deleteTodo" class="btn btn-danger">Delete</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="delete-todo-list" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header bg-danger text-white">
+                    <h5 class="modal-title" id="exampleModalLabel">Delete</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+                </div>
+                <div class="modal-body">
+                    You are deleting the todo list called "<strong data-bind="text: groupsVM.actionForListIndex() === undefined ? '' : groupsVM.actionForListIndex().name()"></strong>". You will not be able to recover your list. It will be gone forever.
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-white text-dark" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-danger" data-bind="click: groupsVM.deleteList">Delete</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="rename-todo-list" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header bg-primary text-white">
+                    <h5 class="modal-title" id="exampleModalLabel">Rename To Do List</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+                </div>
+                <div class="modal-body">
+                    <input type="text" maxlength="20" class="form-control" data-bind="css: {'is-invalid': groupsVM.renameListUserInputError() !== undefined},value: groupsVM.renameListUserInput" />
+                    <div class="invalid-feedback" data-bind="visible: groupsVM.renameListUserInputError() !== undefined, text: groupsVM.renameListUserInputError()"></div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-white text-dark" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" data-bind="click: groupsVM.changeListName">Save changes</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js" integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/knockout/3.4.2/knockout-min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/knockout.mapping/2.4.1/knockout.mapping.min.js"></script>
+    <!--<script src="https://www.gstatic.com/firebasejs/4.12.0/firebase.js"></script>-->
+    <script src="https://www.gstatic.com/firebasejs/4.11.0/firebase.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/4.11.0/firebase-firestore.js"></script>
+    <script>
+        // Initialize Firebase
+        // var config = {
+        //     apiKey: "AIzaSyDCot4QCSaJzA4KTcJJrw5xKPgaXbpsXIg",
+        //     authDomain: "dotted-ranger-90904.firebaseapp.com",
+        //     databaseURL: "https://dotted-ranger-90904.firebaseio.com",
+        //     projectId: "dotted-ranger-90904",
+        //     storageBucket: "",
+        //     messagingSenderId: "227165772735"
+        // };
+        // firebase.initializeApp(config);
+
+        firebase.initializeApp({
+            apiKey: "AIzaSyDCot4QCSaJzA4KTcJJrw5xKPgaXbpsXIg",
+            authDomain: "dotted-ranger-90904.firebaseapp.com",
+            projectId: "dotted-ranger-90904"
+        });
+
+        var db = firebase.firestore();
+    </script>
+    <script src="scripts/util.js"></script>
+    <script src="scripts/database.js"></script>
+    <script src="scripts/account.js"></script>
+    <script src="scripts/layout.js"></script>
+    <script src="scripts/app.js"></script>
+    <script src="scripts/ko.custom.transitions.js"></script>
+    <script src="scripts/app.init.js"></script>
+</body>
+
+</html>
