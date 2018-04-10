@@ -4,7 +4,6 @@ var AccountViewModal = function(show) {
     self.isVisible = ko.observable(show || false);
 
     self.makeVisible = function() {
-        console.log('hit accountVM makeVisible');
         self.isVisible(true);
 
         ViewModels.loginVM.makeVisible();
@@ -61,7 +60,6 @@ var SignUpViewModel = function(makeSignupViewVisible) {
     self.errorMessage = ko.observable();
 
     self.makeVisible = function() {
-        console.log('hit accountVM makeVisible');
         self.isVisible(true);
 
         ViewModels.loginVM.isVisible(false);
@@ -122,9 +120,6 @@ var SignUpViewModel = function(makeSignupViewVisible) {
             $('#register').addClass('shake-opacity');
 
             setTimeout(function() { $('#register').removeClass('shake-opacity'); }, 333);
-            // var errorCode = error.code;
-            // var errorMessage = error.message;
-            // console.log('error: ', errorCode, ' | Message: ' + errorMessage);
         });
     }
 
@@ -136,11 +131,9 @@ var LoginViewModel = function(makeLoginViewVisible) {
     self.userName = ko.observable("");
     self.userPassword = ko.observable("");
     self.isVisible = ko.observable(makeLoginViewVisible || false);
-
     self.errorMessage = ko.observable();
 
     self.makeVisible = function() {
-        console.log('hit loginVM make visible');
         self.isVisible(true);
 
         ViewModels.signupVM.isVisible(false);
@@ -149,16 +142,10 @@ var LoginViewModel = function(makeLoginViewVisible) {
 
     self.login = function() {
         self.errorMessage(undefined);
-        
-        // authClient is invoked here when the user clicks login
         firebase.auth().signInWithEmailAndPassword(self.userName(), self.userPassword()).catch(function(error) {
-            // Handle Errors here.
-
             $('#login').addClass('shake-opacity');
             setTimeout(function() { $('#login').removeClass('shake-opacity'); }, 333);
             self.errorMessage(error.message);
-
-            console.error('error: ', errorCode, errorMessage);
         });
     }
 

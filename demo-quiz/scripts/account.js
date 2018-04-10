@@ -61,7 +61,6 @@ var SignUpViewModel = function(makeSignupViewVisible) {
     self.errorMessage = ko.observable();
 
     self.makeVisible = function() {
-        console.log('hit accountVM makeVisible');
         self.isVisible(true);
 
         ViewModels.loginVM.isVisible(false);
@@ -96,9 +95,9 @@ var SignUpViewModel = function(makeSignupViewVisible) {
         self.userPasswordError(undefined);
 
         // password must be at least 5 characters
-        if (!p || p.length < 5) {
-            self.userPasswordError('Password must be at least 5 characters long');
-        }
+        // if (!p || p.length < 5) {
+        //     self.userPasswordError('Password must be at least 5 characters long');
+        // }
 
         if (self.userPasswordError() !== undefined) {
             returningBool = false;
@@ -110,22 +109,19 @@ var SignUpViewModel = function(makeSignupViewVisible) {
     self.signup = function() {
         var isUsernameValue = usernameValidation();
         var isPasswordValue = passwordValidation();
+        
         if (!isUsernameValue || !isPasswordValue) {
             $('#register').addClass('shake-opacity');
 
             setTimeout(function() { $('#register').removeClass('shake-opacity'); }, 333);
             return;
         }
+        
         firebase.auth().createUserWithEmailAndPassword(self.userName(), self.userPassword()).catch(function(error) {
-            // Handle Errors here.
             self.errorMessage(error.message);
             $('#register').addClass('shake-opacity');
-
             setTimeout(function() { $('#register').removeClass('shake-opacity'); }, 333);
             return;
-            // var errorCode = error.code;
-            // var errorMessage = error.message;
-            // console.log('error: ', errorCode, ' | Message: ' + errorMessage);
         });
     }
 
@@ -137,11 +133,9 @@ var LoginViewModel = function(makeLoginViewVisible) {
     self.userName = ko.observable("");
     self.userPassword = ko.observable("");
     self.isVisible = ko.observable(makeLoginViewVisible || false);
-
     self.errorMessage = ko.observable();
 
     self.makeVisible = function() {
-        console.log('hit loginVM make visible');
         self.isVisible(true);
 
         ViewModels.signupVM.isVisible(false);
@@ -150,16 +144,10 @@ var LoginViewModel = function(makeLoginViewVisible) {
 
     self.login = function() {
         self.errorMessage(undefined);
-        
-        // authClient is invoked here when the user clicks login
         firebase.auth().signInWithEmailAndPassword(self.userName(), self.userPassword()).catch(function(error) {
-            // Handle Errors here.
-
             $('#login').addClass('shake-opacity');
             setTimeout(function() { $('#login').removeClass('shake-opacity'); }, 333);
             self.errorMessage(error.message);
-
-            console.error('error: ', errorCode, errorMessage);
         });
     }
 

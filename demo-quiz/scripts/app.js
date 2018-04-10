@@ -42,11 +42,8 @@ var DashboardViewModel = function() {
         }
         $('#delete-todo-list').modal('hide')
     
-    
         db.collection(app.user.uid + '/quizzes/lists').doc(index.id).delete().then(function() {
-            console.log("Document successfully deleted!");
         }).catch(function(error) {
-            console.error("Error removing document: ", error);
         });
     }
 };
@@ -244,10 +241,6 @@ var QuizViewModel = function() {
     self.cancel = function() {
         ViewModels.sceneVM.isVisible('dashboard');
     };
-
-    self.finish = function() {
-        console.log('test over');
-    }
 }
 
 

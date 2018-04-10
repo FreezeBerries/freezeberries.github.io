@@ -11,9 +11,9 @@ var NavbarViewModel = function(showNavbar) {
     }
 };
 
-var LoadingViewModal = function(){
+var LoadingViewModal = function() {
     var self = this;
-    
+
     self.isVisible = ko.observable(true);
     self.makeVisible = function(isVisible) {
         self.isVisible(isVisible);

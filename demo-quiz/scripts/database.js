@@ -35,16 +35,11 @@ app.obj.answer = function(answer, isCorrect) {
 };
 
 app.db.createQuiz = function(appQuizObj, cb) {
-
     db.collection(app.user.uid + '/quizzes/lists').add(appQuizObj)
         .then(function(docRef) {
-            // console.log("Document written with ID: ", docRef.id);
             if (cb) cb({ success: true });
         })
-        .catch(function(error) {
-            // console.error("Error adding document: ", error);
-            // if (cb) cb({ success: false });
-        });
+        .catch(function(error) {});
 }
 
 app.db.getAllQuizes = function(cb) {
@@ -77,13 +72,9 @@ app.db.getAllQuizes = function(cb) {
 
     db.collection(app.user.uid + '/quizzes/lists').get().then(function(querySnapshot) {
         if (cb) {
-            cb({success: true, data: Object.assign(mikesQuiz, {id: 'demo'} )});
+            cb({ success: true, data: Object.assign(mikesQuiz, { id: 'demo' }) });
         }
         querySnapshot.forEach(function(doc) {
-            // doc.data() is never undefined for query doc snapshots
-            // console.log(doc.id, " => ", doc.data());
-
-
             if (cb) cb({ success: true, data: Object.assign(doc.data(), { id: doc.id }) });
         });
     });
