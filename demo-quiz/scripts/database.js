@@ -75,6 +75,7 @@ app.db.getAllQuizes = function(cb) {
             cb({ success: true, data: Object.assign(mikesQuiz, { id: 'demo' }) });
         }
         querySnapshot.forEach(function(doc) {
+            console.log('data', doc.data());
             if (cb) cb({ success: true, data: Object.assign(doc.data(), { id: doc.id }) });
         });
     });

@@ -131,6 +131,7 @@ var LoginViewModel = function(makeLoginViewVisible) {
     self.userName = ko.observable("");
     self.userPassword = ko.observable("");
     self.isVisible = ko.observable(makeLoginViewVisible || false);
+
     self.errorMessage = ko.observable();
 
     self.makeVisible = function() {

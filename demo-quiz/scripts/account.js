@@ -95,9 +95,9 @@ var SignUpViewModel = function(makeSignupViewVisible) {
         self.userPasswordError(undefined);
 
         // password must be at least 5 characters
-        // if (!p || p.length < 5) {
-        //     self.userPasswordError('Password must be at least 5 characters long');
-        // }
+        if (!p || p.length < 5) {
+            self.userPasswordError('Password must be at least 5 characters long');
+        }
 
         if (self.userPasswordError() !== undefined) {
             returningBool = false;
@@ -109,14 +109,12 @@ var SignUpViewModel = function(makeSignupViewVisible) {
     self.signup = function() {
         var isUsernameValue = usernameValidation();
         var isPasswordValue = passwordValidation();
-        
         if (!isUsernameValue || !isPasswordValue) {
             $('#register').addClass('shake-opacity');
 
             setTimeout(function() { $('#register').removeClass('shake-opacity'); }, 333);
             return;
         }
-        
         firebase.auth().createUserWithEmailAndPassword(self.userName(), self.userPassword()).catch(function(error) {
             self.errorMessage(error.message);
             $('#register').addClass('shake-opacity');

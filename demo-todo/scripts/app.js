@@ -55,6 +55,11 @@ var listViewModal = function() {
         app.db.saveTodoLists();
     };
 
+    self.saveCompleted = function() {
+            app.db.saveTodoLists();
+        return true;
+    }
+
     self.deleteTodo = function() {
         self.todoList.splice(self.todoList.indexOf(self.deleteTodoObj()), 1);
         $('#delete-todo').modal('hide');
